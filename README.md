@@ -34,7 +34,7 @@ Here we show some examples in english and spanish voice commands.
 * "Call", "Calling"... ([Cc]all*)
 * "Message" ... ([Mm]essag*)
 * "Write" ... ([Ww]rit*)
-* "Say"... ([Ss]a*)
+* "Tell"... ([Tt]ell*)
 
 ### Example
 
@@ -51,7 +51,7 @@ Here we show some examples in english and spanish voice commands.
 
 ## TODO
 * Send messages via whatsapp
-* Send GeoLocation
+* Send GeoLocation o  say geolocation
 * Use wit.ai as voice interface
 * Apply software principles to the project 
 * ...
