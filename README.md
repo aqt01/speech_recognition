@@ -23,18 +23,18 @@ python ex.py
 
 Here we show some examples in english and spanish voice commands.
 
-> [Command synonimous or conjugations] [(Regular Expression)]
+* [Command synonimous or conjugations] [(Regular Expression)]
 
 ### Spanish
-> "Llamar", "Llamando", "Llama".. ( [Ll]amar* )
-> "Mensaje"... ( [Mm]ensaje)
-> "Escribe", "Escriba", "Escribale" ... ( [Ee]scrib* )
+* "Llamar", "Llamando", "Llama".. ( [Ll]amar* )
+* "Mensaje"... ( [Mm]ensaje)
+* "Escribe", "Escriba", "Escribale" ... ( [Ee]scrib* )
 
 ### English
-> "Call", "Calling"... ([Cc]all*)
-> "Message" ... ([Mm]essag*)
-> "Write" ... ([Ww]rit*)
-> "Say"... ([Ss]a*)
+* "Call", "Calling"... ([Cc]all*)
+* "Message" ... ([Mm]essag*)
+* "Write" ... ([Ww]rit*)
+* "Say"... ([Ss]a*)
 
 ### Example
 
@@ -44,9 +44,9 @@ Diga: "LLama a X(numero)" o "Envia mensaje al numero x(numero) escribe "Te amo" 
 
 
 ## Requirements
-> Internet (for the speech recognition service)
-> Must have adb installed on system
-> For python libs check [Requirements.txt] (https://github.com/aqt01/speech_recognition/blob/master/requirements.txt)
+* Internet (for the speech recognition service)
+* Must have adb installed on system
+* For python libs check [Requirements.txt] (https://github.com/aqt01/speech_recognition/blob/master/requirements.txt)
 
 
 
