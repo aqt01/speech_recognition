@@ -50,8 +50,8 @@ Here we show some examples in english and spanish voice commands.
 
 
 ## TODO
-> Send messages via whatsapp
-> Send GeoLocation
-> Use wit.ai as voice interface
-> Apply software principles to the project 
-> ...
+* Send messages via whatsapp
+* Send GeoLocation
+* Use wit.ai as voice interface
+* Apply software principles to the project 
+* ...
