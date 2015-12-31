@@ -38,9 +38,8 @@ Here we show some examples in english and spanish voice commands.
 
 ### Example
 
-Say: "Please call X (number)" or "Send x(number) message saying I love you "
-o
-Diga: "LLama a X(numero)" o "Envia mensaje al numero x(numero) escribe "Te amo" " 
+* Say: "Please call X (number)" or "Send x(number) message saying I love you "
+* Diga: "LLama a X(numero)" o "Envia mensaje al numero x(numero) escribe "Te amo" " 
 
 
 ## Requirements
