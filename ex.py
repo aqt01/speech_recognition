@@ -1,135 +1,119 @@
-
-# NOTE: this example requires PyAudio because it uses the Microphone class
-
 import speech_recognition as sr
 import re
+import os
 
 # obtain audio from the import microphone
-
-
-#!/usr/bin/env python
-
 r = sr.Recognizer()
 
+# Language/Dialect to use. Uncomment/Comment for the desired one
 
+# lang="es-ES" #->  Espanol/Espana
+lang="en-US" #-> English/US
+
+
+# Regular expressions
+
+if (lang=="en-US"):
+    call='[Cc]all*'
+    msg='[Mm]essag*'
+    body_msg='[Tt]ell*'
+
+elif (lang=="es-ES"):
+    call='[Ll]ama*'
+    msg='[Mm]ensaj*'
+    body_msg='[Dd]i*'
+
+# Using default micro in OS as source
 with sr.Microphone() as source:
-    print("Say something!")
+    print("Say something! ")
     audio = r.listen(source)
-#    import ipdb
-#    ipdb.set_trace()
+    
+    #Flag variable for messaging command
     x=0
+
+    #Flag variable for call command
     pos=0
 
-    txt = ''
-    try:
-        txt = r.recognize_google(audio,language="es-ES")
-        print 'usted desea llamar: ' + txt
+    # Speech Recognition
+    txt = r.recognize_google(audio,language=lang)
 
-        pos = re.search("[Ll]ama*",txt).start() 
+
+    # Detection command "Call"
+
+    try:
+        pos = re.search(call,txt).start() 
     except Exception:
         pos = -1
         pass
     
+    # Detecting command "Message"
+    
     try:
-        txt = r.recognize_google(audio,language="es-ES")
-        print 'usted desea enviar mensaje a: ' + txt
-
-        x = re.search("[Mm]ensaje*",txt).start() 
-        wr = re.search("[Ee]scribe*",txt).start() 
+        x = re.search(msg,txt).start() 
+        wr = re.search(body_msg,txt).start() 
 
     except Exception:
         x = -1
         pass
     
+    #Number extraction 
 
-
-    print (txt)
-    print (pos)
-    
-    
     numb = ''
     
     for s in txt:
         if s.isdigit():
             numb=numb+s
 
-
-
-
+    # ADB stuff for call x number
     if pos!=-1:
         print(numb)
-        import os
         os.system("adb kill-server")
         os.system("adb start-server")
-    #    os.system('adb connect 192.168.1.12:5555')
+    #   os.system('adb connect 192.168.1.12:5555') uncheck if your cellphone is on adb wifi
+        print ("J.A.R.V.I.S.: Calling: "+ str(numb))
         os.system("adb shell am start -a android.intent.action.CALL -d tel:"+numb)
+       
+    # ADB stuff for messaging x number
     if x!=-1:
-        import os
-
-        xs = txt[wr:len(txt)]
-        c=0
         
-        for a in xs:
+        # Take all text after the command Say or specified in body_msg var
+        print x
+        print wr
+        msg = txt[x:len(txt)]
+        c=0
+
+        print msg
+        
+        for a in msg:
             c=c+1
+            
             if(a==' '):
                 wr=wr+c
                 break
         
-        mensaje = txt[wr:len(txt)]
-        print mensaje
-        mensaje = mensaje.replace(" ","\ ")
-        print numb
-        #os.system("adb kill-server")
+        msg= txt[wr:len(txt)]
+        msg= msg.replace(" ","\ ")
+        
+        print "enssaging"
+        print numb+" "+msg
+        os.system("adb kill-server")
         os.system("adb start-server")
-        print "a que numero desea enviar el sms?"
-        xz='adb shell am start -a android.intent.action.SENDTO -d sms:DO'+numb+' --es sms_body "'+mensaje+'" --ez exit_on_sent true'
-        print xz
-        os.system('adb shell am start -a android.intent.action.SENDTO -d sms:DO'+numb+' --es sms_body "'+mensaje+'" --ez exit_on_sent true') 
+        message_command='adb shell am start -a android.intent.action.SENDTO -d sms:DO'+numb+' --es sms_body "'+msg+'" --ez exit_on_sent true'
+        
+        os.system(message_command) 
+
+        # This stuff is for sending pressing buttons to send message. You may lose mins
         os.system("adb shell input keyevent 22")
         os.system('adb shell input keyevent 66')
 
 
-    print ("J.A.R.V.I.S.: Llamando a:" + str(numb))
-
-
-
-# recognize speech using Google Speech Recognition
+   
+# Debug Purposes
 try:
-    # for testing purposes, we're just using the default API key
-            # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
-                # instead of `r.recognize_google(audio)`
-    print("Google Speech Recognition thinks you said " + r.recognize_google(audio, language="es-ES"))
+    print ("\n")
+    print("You said:" + r.recognize_google(audio, language=lang))
 except sr.UnknownValueError:
     print("Google Speech Recognition could not understand audio")
 except sr.RequestError as e:
     print("Could not request results from Google import Speech Recognition service; {0}".format(e))
-'''
-# recognize speech using Wit.ai
-WIT_AI_KEY = "INSERT WIT.AI API KEY HERE" # Wit.ai keys are 32-character uppercase alphanumeric strings
-try:
-    print("Wit.ai thinks you said " + r.recognize_wit(audio, key=WIT_AI_KEY))
-except sr.UnknownValueError:
-    print("Wit.ai could not understand audio")
-except sr.RequestError as e:
-    print("Could not request results from Wit.ai import service; {0}".format(e))
 
-# recognize speech using IBM Speech to Text
-IBM_USERNAME = "INSERT IBM SPEECH TO TEXT USERNAME HERE" # IBM Speech to Text usernames are strings of the form XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
-IBM_PASSWORD = "INSERT IBM SPEECH TO TEXT PASSWORD HERE" # IBM Speech to Text passwords are mixed-case alphanumeric strings
-try:
-    print("IBM Speech to Text thinks you said " + r.recognize_ibm(audio, username=IBM_USERNAME, password=IBM_PASSWORD))
-except sr.UnknownValueError:
-    print("IBM Speech to Text could not understand audio")
-except sr.RequestError as e:
-    print("Could not request results from IBM import Speech to Text service; {0}".format(e))
-
-# recognize speech using AT&T Speech to Text
-ATT_APP_KEY = "INSERT AT&T SPEECH TO TEXT APP KEY HERE" # AT&T Speech to Text app keys are 32-character lowercase alphanumeric strings
-ATT_APP_SECRET = "INSERT AT&T SPEECH TO TEXT APP SECRET HERE" # AT&T Speech to Text app secrets are 32-character lowercase alphanumeric strings
-try:
-    print("AT&T Speech to Text thinks you said " + r.recognize_att(audio, app_key=ATT_APP_KEY, app_secret=ATT_APP_SECRET))
-except sr.UnknownValueError:
-    print("AT&T Speech to Text could not understand audio")
-except sr.RequestError as e:
-    print("Could not request results from AT&T Speech to Text service; {0}".format(e))
-    '''
