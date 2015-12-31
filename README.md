@@ -12,8 +12,8 @@ the text output from the Speech Recognizer.
  
 
 ## Features
-> Send messages
-> Calls
+* Send messages
+* Calls
 
 ## Use
 
